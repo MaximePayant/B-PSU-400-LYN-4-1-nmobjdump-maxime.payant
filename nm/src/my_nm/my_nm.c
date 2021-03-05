@@ -26,30 +26,11 @@ static void print_symtab(const Elf64_Shdr *shdr, const symtab_info_t symtab)
     }
 }
 
-static void print_dynsym(const Elf64_Shdr *shdr, const symtab_info_t dynsym)
-{
-    char sym_char;
-
-    for (int ctr = 0; dynsym.table && ctr < dynsym.entsize; ctr += 1) {
-        if (dynsym.symbol_table[ctr].st_name != 0) {
-            sym_char = get_symbol(dynsym.symbol_table[ctr], shdr);
-            if (sym_char == 'f')
-                continue;
-            if (sym_char == 'U')
-                printf("%*c", 16, ' ');
-            else
-                printf("%016lx", dynsym.symbol_table[ctr].st_value);
-            printf(" %c ", sym_char);
-            printf("%s\n", &dynsym.string_table[dynsym.symbol_table[ctr].st_name]);
-        }
-    }
-}
-
 void my_nm(elf_t *elf)
 {
     void *section_strtab = (void*)((char*)elf->ehdr + elf->shdr[elf->ehdr->e_shstrndx].sh_offset);
-    symtab_info_t symtab;
-    symtab_info_t dynsym;
+    symtab_info_t symtab = {NULL, NULL, NULL, 0};
+    symtab_info_t dynsym = {NULL, NULL, NULL, 0};
 
     for (int ctr = 0; ctr < elf->ehdr->e_shnum; ctr += 1) {
         if (elf->shdr[ctr].sh_type == SHT_SYMTAB) {
@@ -68,5 +49,5 @@ void my_nm(elf_t *elf)
             dynsym.string_table = (char*)((char*)(elf->data) + elf->shdr[ctr].sh_offset);
     }
     print_symtab(elf->shdr, symtab);
-    print_dynsym(elf->shdr, dynsym);
+    print_symtab(elf->shdr, dynsym);
 }
