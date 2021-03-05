@@ -7,7 +7,7 @@
 
 #include "my_nm.h"
 
-static void file_error(char *filename)
+static void file_error(const char *filename)
 {
     switch (errno) {
         case ENOENT:
@@ -18,7 +18,7 @@ static void file_error(char *filename)
     }
 }
 
-static void *extract_file(char *filename, size_t *size)
+static void *extract_file(const char *filename, size_t *size)
 {
     void *result;
     struct stat st_buf;
@@ -37,7 +37,7 @@ static void *extract_file(char *filename, size_t *size)
     return (result);
 }
 
-static bool check_header_type(unsigned char ident[16])
+static bool check_header_type(const unsigned char ident[16])
 {
     if (ident[EI_MAG0] == ELFMAG0
     && ident[EI_MAG1] == ELFMAG1
@@ -47,7 +47,7 @@ static bool check_header_type(unsigned char ident[16])
     return (false);
 }
 
-static elf_t *fill_elf_struct(char *filename)
+static elf_t *fill_elf_struct(const char *filename)
 {
     elf_t *elf = malloc(sizeof(elf_t));
 
@@ -64,7 +64,7 @@ static elf_t *fill_elf_struct(char *filename)
     return (elf);
 }
 
-int launcher(char *filename)
+int launcher(const char *filename)
 {
     elf_t *elf = fill_elf_struct(filename);
 

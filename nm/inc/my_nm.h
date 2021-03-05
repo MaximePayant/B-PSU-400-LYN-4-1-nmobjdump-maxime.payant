@@ -34,8 +34,8 @@ typedef struct symbol_table_info_s {
     int entsize;
 } symtab_info_t;
 
-int launcher(char *filename);
-void my_nm(elf_t *elf);
+int launcher(const char *filename);
+void my_nm(const elf_t *elf);
 char get_symbol(const Elf64_Sym sym, const Elf64_Shdr *shdr);
 
 #endif // __MY_NM_H__

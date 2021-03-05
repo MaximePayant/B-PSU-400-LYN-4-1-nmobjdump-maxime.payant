@@ -26,7 +26,7 @@ static void print_symtab(const Elf64_Shdr *shdr, const symtab_info_t symtab)
     }
 }
 
-void my_nm(elf_t *elf)
+void my_nm(const elf_t *elf)
 {
     void *section_strtab = (void*)((char*)elf->ehdr + elf->shdr[elf->ehdr->e_shstrndx].sh_offset);
     symtab_info_t symtab = {NULL, NULL, NULL, 0};
