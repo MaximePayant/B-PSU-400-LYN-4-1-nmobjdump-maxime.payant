@@ -14,6 +14,8 @@ int main(int ac, char **av)
     if (ac < 2)
         check = launcher("a.out");
     for (int ctr = 1; av[ctr] != NULL; ctr += 1) {
+        if (ac > 2)
+            printf("\n%s:\n", av[ctr]);
         check = launcher(av[ctr]);
         if (check != 0)
             break;
