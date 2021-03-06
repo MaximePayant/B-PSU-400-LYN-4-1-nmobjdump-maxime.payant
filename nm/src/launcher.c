@@ -33,7 +33,8 @@ static void *extract_file(const char *filename, size_t *size)
     result = mmap(NULL, st_buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
     close(fd);
     if (result == MAP_FAILED)
-        return (fprintf(stderr, "nm: %s: %s\n", filename, strerror(errno)), (void*)-1);
+        return (fprintf(stderr, "nm: %s: %s\n",
+                filename, strerror(errno)), (void*)-1);
     return (result);
 }
 
@@ -58,17 +59,21 @@ static elf_t *fill_elf_struct(const char *filename)
         return (free(elf), NULL);
     elf->ehdr = (Elf64_Ehdr*)(elf->data);
     if (!check_header_type(elf->ehdr->e_ident))
-        return (free(elf), fprintf(stderr, "nm: %s: %s\n", filename, "file format not recognized"), NULL);
+        return (free(elf), fprintf(stderr, "nm: %s: %s\n",
+                           filename, "file format not recognized"), NULL);
     elf->shdr = (Elf64_Shdr*)((char*)(elf->ehdr) + elf->ehdr->e_shoff);
-    elf->section_table = (char*)elf->data + elf->shdr[elf->ehdr->e_shstrndx].sh_offset;
+    elf->section_table =
+    (char*)elf->data + elf->shdr[elf->ehdr->e_shstrndx].sh_offset;
     return (elf);
 }
 
-int launcher(const char *filename)
+int launcher(const char *filename, const int ac)
 {
     elf_t *elf = fill_elf_struct(filename);
 
     if (elf) {
+        if (ac > 2)
+            printf("\n%s:\n", filename);
         my_nm(elf);
         munmap(elf->data, elf->fsize);
         free(elf);

@@ -29,12 +29,12 @@ typedef struct {
 
 typedef struct symbol_table_info_s {
     Elf64_Shdr *table;
-    Elf64_Sym *symbol_table;
-    char *string_table;
+    Elf64_Sym *symtab;
+    char *strtab;
     int entsize;
 } symtab_info_t;
 
-int launcher(const char *filename);
+int launcher(const char *filename, const int ac);
 void my_nm(const elf_t *elf);
 char get_symbol(const Elf64_Sym sym, const Elf64_Shdr *shdr);
 
