@@ -13,10 +13,7 @@ int main(int ac, char **av)
 
     if (ac < 2)
         check = launcher("a.out", ac);
-    for (int ctr = 1; av[ctr] != NULL; ctr += 1) {
-        check = launcher(av[ctr], ac);
-        if (check != 0)
-            break;
-    }
+    for (int ctr = 1; av[ctr] != NULL; ctr += 1)
+        check = (launcher(av[ctr], ac) ? 84 : check);
     return (check);
 }
