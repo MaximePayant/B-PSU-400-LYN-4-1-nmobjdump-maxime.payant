@@ -73,8 +73,9 @@ int launcher(const char *filename)
     elf_t *elf = fill_elf_struct(filename);
 
     if (elf) {
-        printf("\n%s:     \n", filename);
+        printf("\n%s:     ", filename);
         my_objdump(elf);
+        printf("\n");
         munmap(elf->data, elf->fsize);
         free(elf);
         return (0);
