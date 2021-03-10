@@ -29,5 +29,7 @@ typedef struct {
 
 int launcher(const char *filename);
 void my_objdump(const elf_t *elf);
+void print_header(const elf_t *elf);
+void print_section_content(const void *data, const Elf64_Shdr *shdr);
 
 #endif // __MY_OBJDUMP_H__
