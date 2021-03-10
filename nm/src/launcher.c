@@ -38,13 +38,15 @@ static void *extract_file(const char *filename, size_t *size)
     return (result);
 }
 
-static bool check_header_type(const unsigned char ident[16])
+static bool check_header_type(const unsigned char ident[16],
+const char *filename)
 {
     if (ident[EI_MAG0] == ELFMAG0
     && ident[EI_MAG1] == ELFMAG1
     && ident[EI_MAG2] == ELFMAG2
     && ident[EI_MAG3] == ELFMAG3)
         return (true);
+    fprintf(stderr, "nm: %s: %s\n", filename, "file format not recognized");
     return (false);
 }
 
@@ -58,9 +60,8 @@ static elf_t *fill_elf_struct(const char *filename)
     if (elf->data == (void*)-1)
         return (free(elf), NULL);
     elf->ehdr = (Elf64_Ehdr*)(elf->data);
-    if (!check_header_type(elf->ehdr->e_ident))
-        return (free(elf), fprintf(stderr, "nm: %s: %s\n",
-                           filename, "file format not recognized"), NULL);
+    if (!check_header_type(elf->ehdr->e_ident, filename))
+        return (free(elf), NULL);
     elf->shdr = (Elf64_Shdr*)((char*)(elf->ehdr) + elf->ehdr->e_shoff);
     elf->section_table =
     (char*)elf->data + elf->shdr[elf->ehdr->e_shstrndx].sh_offset;

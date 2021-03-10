@@ -48,7 +48,7 @@ static void check_dynsym_strtab(symtab_info_t *st,
 const void *section_strtab, Elf64_Shdr *shdr, const void *data)
 {
     if (shdr->sh_type == SHT_STRTAB
-    && strcmp((char*)(&section_strtab[shdr->sh_name]), ".strtab") == 0)
+    && strcmp((char*)(&section_strtab[shdr->sh_name]), ".dynstr") == 0)
         st->strtab = (char*)((char*)(data) + shdr->sh_offset);
 }
 

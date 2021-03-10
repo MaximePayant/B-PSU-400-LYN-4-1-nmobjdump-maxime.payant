@@ -7,9 +7,12 @@
 
 #include "my_nm.h"
 
-static char get_symbol_bis(const Elf64_Sym sym)
+static char get_symbol_bis(const Elf64_Sym sym, const Elf64_Shdr *shdr)
 {
     switch (sym.st_info) {
+        case 17:
+            return ((shdr[sym.st_shndx].sh_flags == 2 ? 'R' :
+                    (shdr[sym.st_shndx].sh_type == 8 ? 'B' : 'D')));
         case 2:
             return ('t');
         case 16:
@@ -39,5 +42,5 @@ char get_symbol(const Elf64_Sym sym, const Elf64_Shdr *shdr)
             return ((shdr[sym.st_shndx].sh_flags == 2 ? 'r' :
                     (shdr[sym.st_shndx].sh_type == 8 ? 'b' : 'd')));
     }
-    return (get_symbol_bis(sym));
+    return (get_symbol_bis(sym, shdr));
 }
