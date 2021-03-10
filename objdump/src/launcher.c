@@ -75,7 +75,6 @@ int launcher(const char *filename)
     if (elf) {
         printf("\n%s:     ", filename);
         my_objdump(elf);
-        printf("\n");
         munmap(elf->data, elf->fsize);
         free(elf);
         return (0);
