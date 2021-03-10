@@ -15,7 +15,8 @@ EXT :=	c
 
 ## SOURCES VARIABLES
 ## --------------------------------------------->
-SRC_FOLDER :=	src/
+SRC_FOLDER :=	src/ \
+				src/my_objdump
 
 IGNORE_SRC := 	.
 SRC :=	$(filter-out $(IGNORE_SRC), $(sort $(shell find $(SRC_FOLDER) -ignore_readdir_race -maxdepth 1 -name '*.$(EXT)')))
