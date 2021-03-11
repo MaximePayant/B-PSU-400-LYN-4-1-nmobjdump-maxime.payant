@@ -31,8 +31,6 @@ const void *data, const Elf64_Shdr *shdr)
 
     for (int i = 0; i < 16 && ctr + i < shdr->sh_size; i += 1) {
         c = ((char*)data + shdr->sh_offset)[(int)ctr + i];
-        if (c == ' ' && i == 15)
-            continue;
         c >= 32 && c <= 126 ? printf("%c", c) : printf(".");
     }
 }
