@@ -8,7 +8,7 @@
 ## VARIABLES
 ## --------------------------------------------->
 EXEC := my_objdump
-FLAG := -W -Wextra -Werror -Wall -pedantic -g3
+FLAG := -Wextra -Wall -pedantic -g3
 CC :=	gcc
 EXT :=	c
 ## --------------------------------------------->

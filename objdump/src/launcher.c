@@ -32,9 +32,10 @@ static void *extract_file(const char *filename, size_t *size)
         return (file_error(filename), (void*)-1);
     result = mmap(NULL, st_buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
     close(fd);
-    if (result == MAP_FAILED)
-        return (fprintf(stderr, "objdump: %s: %s\n",
-                filename, strerror(errno)), (void*)-1);
+    if (result == MAP_FAILED) {
+        fprintf(stderr, "objdump: %s: file format not recognized\n", filename);
+        return ((void*)-1);
+    }
     return (result);
 }
 
@@ -81,3 +82,14 @@ int launcher(const char *filename)
     }
     return (84);
 }
+
+/*
+if ((elf->ehdr->e_shnum * elf->ehdr->e_shentsize + elf->ehdr->e_shoff)
+    > elf->fsize)
+        return (fprintf(stderr, "objdump: %s: file"
+        " format not recognized\n", filename), NULL);
+    for (int ctr = 0; ctr < elf->ehdr->e_shnum; ctr += 1)
+        if ((elf->shdr[ctr].sh_size + elf->shdr[ctr].sh_offset) > elf->fsize)
+	        return (fprintf(stderr, "objdump: %s: file"
+            " format not recognized\n", filename), NULL);
+*/

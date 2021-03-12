@@ -12,7 +12,7 @@ int main(int ac, char **av)
     int check = 0;
 
     if (ac < 2)
-        return (84);
+        check = launcher("a.out");
     for (int ctr = 1; av[ctr] != NULL; ctr += 1)
         check = (launcher(av[ctr]) ? 84 : check);
     return (check);
